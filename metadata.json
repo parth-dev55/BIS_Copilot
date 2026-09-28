@@ -1,0 +1,7 @@
+{
+  "name": "BIS-GPT",
+  "description": "AI-powered assistant for Indian Standards, BIS certification schemes, mandatory QCOs, testing laboratories, and gold hallmarking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
