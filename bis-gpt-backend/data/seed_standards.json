@@ -1,0 +1,169 @@
+{
+  "standards": [
+    {
+      "is_number": "IS 10500:2012",
+      "title": "Drinking Water — Specification (Second Revision)",
+      "product_name": "Potable Drinking Water",
+      "category": "Food & Water",
+      "scheme": "Scheme-I (ISI Mark)",
+      "mandatory_qco": true,
+      "qco_title": "Packaged Drinking Water Quality Control Order",
+      "qco_ministry": "Ministry of Consumer Affairs & FSSAI Mandate",
+      "description_plain": "Prescribes essential physical, chemical, and microbiological limits for safe drinking water to protect public health against heavy metals, pesticide residues, and microbial pathogens.",
+      "key_testing_parameters": [
+        "Microbiological limits (E. coli, total coliforms)",
+        "Heavy metal thresholds (Lead, Cadmium, Arsenic, Mercury)",
+        "Pesticide residues (individual max 0.0001 mg/l, total max 0.0005 mg/l)",
+        "Total Dissolved Solids (TDS, max 500 mg/l desirable) and pH (6.5 to 8.5)"
+      ],
+      "recommended_labs": [
+        "BIS Central Laboratory Sahibabad",
+        "Northern Regional Lab Mohali",
+        "Western Regional Lab Mumbai"
+      ],
+      "source_url": "https://standardsbis.bsbedge.com",
+      "portal_url": "https://www.manakonline.in"
+    },
+    {
+      "is_number": "IS 14543:2016",
+      "title": "Packaged Drinking Water (Other than Packaged Natural Mineral Water)",
+      "product_name": "Packaged Drinking Water (Bottles & 20L Dispenser Cans)",
+      "category": "Food & Water",
+      "scheme": "Scheme-I (ISI Mark)",
+      "mandatory_qco": true,
+      "qco_title": "Packaged Drinking Water Mandatory Certification Scheme",
+      "qco_ministry": "Ministry of Consumer Affairs, Food and Public Distribution",
+      "description_plain": "Mandatory standard for commercial water packaging facilities, reverse osmosis bottling plants, and 20L water jar distributors in India.",
+      "key_testing_parameters": [
+        "Reverse Osmosis / UV treatment verification",
+        "Total viable bacterial count",
+        "Absence of Pseudomonas aeruginosa",
+        "Migration testing of PET/Polycarbonate containers (IS 15410)"
+      ],
+      "recommended_labs": [
+        "BIS Central Laboratory Sahibabad",
+        "Southern Regional Lab Chennai"
+      ],
+      "source_url": "https://standardsbis.bsbedge.com",
+      "portal_url": "https://www.manakonline.in"
+    },
+    {
+      "is_number": "IS 1417:2016",
+      "title": "Gold and Gold Alloys, Jewellery/Artefacts — Fineness and Marking",
+      "product_name": "Gold Jewellery and Artefacts",
+      "category": "Precious Metals & Jewellery",
+      "scheme": "Scheme-IV (Hallmarking)",
+      "mandatory_qco": true,
+      "qco_title": "Hallmarking of Gold Jewellery and Gold Artefacts Order",
+      "qco_ministry": "Department of Consumer Affairs",
+      "description_plain": "Specifies legal fineness grades (14K, 18K, 20K, 22K, 23K, 24K) and mandates the 3-mark hallmark format with unique 6-digit HUID code.",
+      "key_testing_parameters": [
+        "Fire assay testing",
+        "X-ray Fluorescence (XRF) spectrometry",
+        "Zero negative purity tolerance enforcement",
+        "6-digit HUID laser marking integrity"
+      ],
+      "recommended_labs": [
+        "BIS Recognized Assaying and Hallmarking Centres (AHCs) across India"
+      ],
+      "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/hallmarking/overview",
+      "portal_url": "https://www.manakonline.in/MANAK/hallmarkingHome"
+    },
+    {
+      "is_number": "IS 4151:2015",
+      "title": "Protective Helmets for Two Wheeler Riders — Specification",
+      "product_name": "Two-Wheeler Motorcycle Helmets",
+      "category": "Safety & PPE",
+      "scheme": "Scheme-I (ISI Mark)",
+      "mandatory_qco": true,
+      "qco_title": "Helmet for Two Wheeler Riders (Quality Control) Order",
+      "qco_ministry": "Ministry of Road Transport and Highways (MoRTH)",
+      "description_plain": "Mandatory standard for motorcycle helmets ensuring high shock absorption and visor resistance to protect rider safety.",
+      "key_testing_parameters": [
+        "Impact attenuation test at high (+50C) and low (-10C) temperatures",
+        "Chin strap dynamic retention and release force",
+        "Visor optical distortion and scratch resistance",
+        "Weight restriction (max 1.2 kg to prevent rider fatigue)"
+      ],
+      "recommended_labs": [
+        "BIS Central Laboratory Sahibabad",
+        "ICAT Manesar",
+        "ARAI Pune"
+      ],
+      "source_url": "https://standardsbis.bsbedge.com",
+      "portal_url": "https://www.manakonline.in"
+    },
+    {
+      "is_number": "IS 16046 (Part 1 & 2):2018",
+      "title": "Secondary Cells and Batteries Containing Alkaline or Other Non-Acid Electrolytes (Lithium Systems)",
+      "product_name": "Lithium-ion Batteries, Power Banks & Battery Packs",
+      "category": "Electronics & IT",
+      "scheme": "Scheme-II (CRS)",
+      "mandatory_qco": true,
+      "qco_title": "Compulsory Registration Scheme for Secondary Batteries",
+      "qco_ministry": "Ministry of Electronics and Information Technology (MeitY)",
+      "description_plain": "CRS safety standard ensuring secondary cells and batteries prevent thermal runaway, swelling, and internal short-circuits.",
+      "key_testing_parameters": [
+        "External short-circuit at 55°C",
+        "Thermal abuse test at 130°C",
+        "Free fall drop test",
+        "Overcharge safety protection circuit evaluation"
+      ],
+      "recommended_labs": [
+        "BIS Central Laboratory Sahibabad",
+        "ERTL North New Delhi",
+        "TUV Rheinland India"
+      ],
+      "source_url": "https://www.crsbis.in/BIS/products.do",
+      "portal_url": "https://www.crsbis.in"
+    }
+  ],
+  "laboratories": [
+    {
+      "name": "BIS Central Laboratory (CL), Sahibabad",
+      "lab_type": "Central Laboratory",
+      "region": "North",
+      "address": "Plot No. 20/9, Site IV, Sahibabad Industrial Area, Ghaziabad, UP - 201010",
+      "contact_email": "cl@bis.gov.in",
+      "phone": "+91-120-4177100",
+      "disciplines": ["Chemical", "Electrical", "Mechanical", "Microbiology", "Metallurgy", "Electronics"],
+      "product_scopes": [
+        "Packaged Drinking Water (IS 10500, IS 14543)",
+        "Two-Wheeler Helmets (IS 4151)",
+        "Secondary Lithium Batteries (IS 16046)",
+        "PVC Cables (IS 694)",
+        "Children Toys (IS 9873)"
+      ]
+    },
+    {
+      "name": "BIS Western Regional Office Laboratory (WROL), Mumbai",
+      "lab_type": "Regional Laboratory",
+      "region": "West",
+      "address": "Manakalaya, E9, MIDC, Andheri (East), Mumbai, Maharashtra - 400093",
+      "contact_email": "wrol@bis.gov.in",
+      "phone": "+91-22-28329295",
+      "disciplines": ["Chemical", "Electrical", "Mechanical", "Microbiology"],
+      "product_scopes": [
+        "Drinking water and food packaging",
+        "Electrical appliances and switches",
+        "Plastics and consumer toys",
+        "Precious metals assaying"
+      ]
+    },
+    {
+      "name": "BIS Southern Regional Office Laboratory (SROL), Chennai",
+      "lab_type": "Regional Laboratory",
+      "region": "South",
+      "address": "CIT Campus, IV Cross Road, Taramani, Chennai, Tamil Nadu - 600113",
+      "contact_email": "srol@bis.gov.in",
+      "phone": "+91-44-22541216",
+      "disciplines": ["Chemical", "Electrical", "Mechanical", "Textiles"],
+      "product_scopes": [
+        "Industrial footwear and PPE",
+        "Textiles and geotextiles",
+        "Drinking water testing",
+        "Transformers and motors"
+      ]
+    }
+  ]
+}

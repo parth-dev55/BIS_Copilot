@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database with pgvector extension
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: bis-gpt-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: bis_gpt_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. FastAPI Backend Application
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bis-gpt-backend
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgrespassword@db:5432/bis_gpt_db
+      SYNC_DATABASE_URL: postgresql://postgres:postgrespassword@db:5432/bis_gpt_db
+      QWEN_API_BASE_URL: http://vllm:8000/v1
+      QWEN_MODEL_NAME: Qwen/Qwen2.5-7B-Instruct
+      QWEN_API_KEY: none
+      SECRET_KEY: test-secret-key-change-in-prod
+      DEBUG: "true"
+      USE_MOCK_EMBEDDINGS_FALLBACK: "true"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+      - ./data:/app/data
+
+  # 3. vLLM Inference Service (GPU Enabled - optional profile)
+  # Run with: docker compose --profile gpu up
+  vllm:
+    image: vllm/vllm-openai:latest
+    container_name: bis-gpt-qwen-vllm
+    profiles: ["gpu"]
+    runtime: nvidia
+    environment:
+      HUGGING_FACE_HUB_TOKEN: ""
+    command: >
+      --model Qwen/Qwen2.5-7B-Instruct
+      --tensor-parallel-size 1
+      --max-model-len 4096
+      --gpu-memory-utilization 0.90
+      --port 8000
+    ports:
+      - "8001:8000"
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  pgdata:

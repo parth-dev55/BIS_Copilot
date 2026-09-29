@@ -30,6 +30,11 @@ export const ChatView: React.FC<ChatViewProps> = ({ session, isExecuting = false
             <span>·</span>
             <span className="inline-flex items-center gap-1">
               {session.model.includes('Google') && <GoogleIcon size={12} />}
+              {session.model.toLowerCase().includes('qwen') && (
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-purple-50 text-purple-700 font-bold border border-purple-200">
+                  Ollama
+                </span>
+              )}
               <span>Model: {session.model}</span>
             </span>
             <span>·</span>

@@ -304,6 +304,7 @@ export const AVAILABLE_PROJECTS: ProjectItem[] = [
 ];
 
 export const AVAILABLE_MODELS = [
+  { id: 'qwen3.8-flash-next:125b-mlx', name: 'qwen 3.8-flash (Ollama)', tag: 'Ollama MLX', description: 'qwen3.8-flash-next:125b-mlx via Ollama chat connection' },
   { id: 'gemini-3.5-flash', name: 'gemini-3.5-flash (Google Search)', tag: 'Google Search', description: 'Real-time Google search grounding for up-to-date facts, standards & docs' },
   { id: 'terra-med', name: '5.6 Terra Medium', tag: 'Recommended', description: 'Optimal balance of speed and deep code reasoning' },
   { id: 'terra-fast', name: '5.6 Terra Fast', tag: 'Fastest', description: 'Ultra-low latency code generation for small edits' },

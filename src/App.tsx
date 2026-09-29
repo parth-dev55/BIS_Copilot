@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { Sparkles, PanelRight, PanelLeft, BookOpen, ShieldCheck, Award, FlaskConical, ArrowRight, HelpCircle } from 'lucide-react';
+import { Sparkles, PanelRight, PanelLeft, BookOpen } from 'lucide-react';
 import { Sidebar } from './components/Sidebar';
 import { CloudTerminalIcon } from './components/CloudTerminalIcon';
 import { BisLogo } from './components/BisLogo';
@@ -124,7 +124,8 @@ export default function App() {
   ) => {
     setIsProcessing(true);
 
-    const effectiveModel = useSearch ? 'gemini-3.5-flash (Google Search)' : model;
+    const isQwenModel = model.toLowerCase().includes('qwen');
+    const effectiveModel = isQwenModel ? model : (useSearch ? 'gemini-3.5-flash (Google Search)' : model);
     const userMsg = {
       id: `m-${Date.now()}`,
       sender: 'user' as const,
@@ -162,7 +163,7 @@ export default function App() {
           prompt: promptText,
           useSearch,
           project: currentProject,
-          model: 'gemini-3.5-flash'
+          model: isQwenModel ? 'qwen3.8-flash-next:125b-mlx' : (useSearch ? 'gemini-3.5-flash' : model)
         })
       });
 
@@ -170,7 +171,7 @@ export default function App() {
       const assistantMsg = {
         id: `m-ai-${Date.now()}`,
         sender: 'assistant' as const,
-        content: data.content || `Processed query for ${currentProject} using gemini-3.5-flash.`,
+        content: data.content || `Processed query for ${currentProject} using ${data.model || effectiveModel}.`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         searchGrounding: data.grounding
       };
@@ -186,7 +187,7 @@ export default function App() {
       const fallbackMsg = {
         id: `m-ai-${Date.now()}`,
         sender: 'assistant' as const,
-        content: `I've analyzed "${promptText}" for repository **${currentProject}** using gemini-3.5-flash Search Grounding.`,
+        content: `I've analyzed "${promptText}" for repository **${currentProject}** using ${effectiveModel}.`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         searchGrounding: {
           queries: [`${promptText.slice(0, 40)}`],
@@ -313,113 +314,6 @@ export default function App() {
                   <p className="text-xs sm:text-sm text-[#475569] max-w-xl leading-relaxed">
                     AI assistant that answers questions about Indian Standards and BIS services in plain, everyday language — searches official standards, QCOs, certification schemes, testing labs, and gold hallmarking.
                   </p>
-                </div>
-
-                {/* 4 Feature Action Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mb-6">
-                  {/* Card 1: Recommend Standard */}
-                  <div
-                    onClick={() => handleSubmitPrompt(
-                      'What is the mandatory Indian Standard (IS number) and QCO requirements for selling packaged drinking water in bottles and 20L jars?',
-                      selectedModel,
-                      askForApproval,
-                      true
-                    )}
-                    className="p-4 rounded-xl border border-[#E2E8F0] hover:border-[#2F5FA7]/50 hover:bg-[#F8FAFC] hover:shadow-xs transition-all cursor-pointer text-left group"
-                  >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <div className="flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-[#2F5FA7]" />
-                        <span className="font-bold text-xs text-[#111827] group-hover:text-[#2F5FA7] transition-colors">
-                          Recommend Standard for Product
-                        </span>
-                      </div>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#EAF1FA] text-[#2F5FA7]">
-                        IS Numbers
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#6B7280] leading-relaxed">
-                      "What is the mandatory Indian Standard and QCO for selling packaged drinking water?"
-                    </p>
-                  </div>
-
-                  {/* Card 2: Gold Hallmarking & HUID */}
-                  <div
-                    onClick={() => handleSubmitPrompt(
-                      'How do I check if my 22K gold jewellery has a genuine BIS hallmark and 6-digit HUID code? Explain the 3 mandatory marks and consumer rights.',
-                      selectedModel,
-                      askForApproval,
-                      true
-                    )}
-                    className="p-4 rounded-xl border border-[#E2E8F0] hover:border-amber-400 hover:bg-amber-50/20 hover:shadow-xs transition-all cursor-pointer text-left group"
-                  >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <div className="flex items-center gap-2">
-                        <Award className="w-4 h-4 text-amber-600" />
-                        <span className="font-bold text-xs text-[#111827] group-hover:text-amber-700 transition-colors">
-                          Gold Hallmarking & HUID Guide
-                        </span>
-                      </div>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                        Consumer Rights
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#6B7280] leading-relaxed">
-                      "How do I check if my 22K gold jewellery has a genuine BIS hallmark and 6-digit HUID?"
-                    </p>
-                  </div>
-
-                  {/* Card 3: Step-by-Step Certification */}
-                  <div
-                    onClick={() => handleSubmitPrompt(
-                      'Guide me step-by-step through obtaining a BIS ISI Mark license (Scheme-I) on Manakonline. What documents and factory testing are required?',
-                      selectedModel,
-                      askForApproval,
-                      true
-                    )}
-                    className="p-4 rounded-xl border border-[#E2E8F0] hover:border-[#2F5FA7]/50 hover:bg-[#F8FAFC] hover:shadow-xs transition-all cursor-pointer text-left group"
-                  >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <div className="flex items-center gap-2">
-                        <ShieldCheck className="w-4 h-4 text-[#2F5FA7]" />
-                        <span className="font-bold text-xs text-[#111827] group-hover:text-[#2F5FA7] transition-colors">
-                          Step-by-Step Certification
-                        </span>
-                      </div>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#EAF1FA] text-[#2F5FA7]">
-                        ISI / CRS
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#6B7280] leading-relaxed">
-                      "Guide me step-by-step through obtaining an ISI Mark license on Manakonline"
-                    </p>
-                  </div>
-
-                  {/* Card 4: Testing Laboratories */}
-                  <div
-                    onClick={() => handleSubmitPrompt(
-                      'Which BIS recognized testing laboratories test electrical appliances, lithium batteries, and two-wheeler helmets in India?',
-                      selectedModel,
-                      askForApproval,
-                      true
-                    )}
-                    className="p-4 rounded-xl border border-[#E2E8F0] hover:border-[#2F5FA7]/50 hover:bg-[#F8FAFC] hover:shadow-xs transition-all cursor-pointer text-left group"
-                  >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <div className="flex items-center gap-2">
-                        <FlaskConical className="w-4 h-4 text-[#2F5FA7]" />
-                        <span className="font-bold text-xs text-[#111827] group-hover:text-[#2F5FA7] transition-colors">
-                          Recognized Testing Labs
-                        </span>
-                      </div>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#EAF1FA] text-[#2F5FA7]">
-                        Lab Finder
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#6B7280] leading-relaxed">
-                      "Which BIS recognized laboratories test electrical appliances, batteries, and helmets?"
-                    </p>
-                  </div>
                 </div>
 
                 {/* Popular Standards Quick Chips */}

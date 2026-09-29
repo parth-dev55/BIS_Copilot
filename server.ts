@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
+import ollama from 'ollama';
 import { 
   INDIAN_STANDARDS_DATABASE, 
   CERTIFICATION_SCHEMES, 
@@ -220,13 +221,59 @@ I can assist you across all official Indian Standards (IS), certification scheme
   };
 }
 
-// Search Grounded Generation Endpoint using gemini-3.5-flash with googleSearch tool
+// Search Grounded Generation Endpoint using gemini-3.5-flash with googleSearch tool, or local/hosted Ollama qwen3.8-flash-next:125b-mlx
 app.post('/api/chat', async (req, res) => {
   try {
-    const { prompt, useSearch = true, project = 'standards-compliance' } = req.body;
+    const { prompt, useSearch = true, project = 'standards-compliance', model = '' } = req.body;
 
     if (!prompt) {
       return res.status(400).json({ error: 'Prompt is required' });
+    }
+
+    // Check if user requested qwen 3.8-flash (Ollama format: import ollama from 'ollama')
+    const modelParam = (model || '').toLowerCase();
+    const isQwen = modelParam.includes('qwen') || modelParam === 'qwen3.8-flash-next:125b-mlx';
+
+    if (isQwen) {
+      try {
+        console.log(`Connecting to Ollama model 'qwen3.8-flash-next:125b-mlx' for prompt: "${prompt.slice(0, 45)}..."`);
+        const ollamaResponse = await ollama.chat({
+          model: 'qwen3.8-flash-next:125b-mlx',
+          messages: [{ role: 'user', content: prompt }],
+        });
+
+        const replyContent = ollamaResponse.message?.content || '';
+        console.log(replyContent);
+
+        return res.json({
+          content: replyContent,
+          model: 'qwen3.8-flash-next:125b-mlx',
+          provider: 'ollama',
+          grounding: {
+            queries: ['ollama chat qwen3.8-flash-next:125b-mlx'],
+            sources: [
+              { title: 'Ollama Model: qwen3.8-flash-next:125b-mlx', url: 'https://ollama.com' },
+              { title: 'Bureau of Indian Standards Official Portal', url: 'https://bis.gov.in' }
+            ]
+          }
+        });
+      } catch (ollamaErr: any) {
+        console.error('Ollama connection notice:', ollamaErr?.message || ollamaErr);
+        const knowledgeResponse = generateBisKnowledgeAnswer(prompt);
+        const errNotice = ollamaErr?.message || 'Connection to Ollama service refused (is Ollama daemon running?)';
+        return res.json({
+          content: `> 🦙 **Model: qwen3.8-flash-next:125b-mlx (Ollama)**\n> *Ollama status: ${errNotice}. Start with \`ollama run qwen3.8-flash-next:125b-mlx\` for direct local inference.*\n\n${knowledgeResponse.content}`,
+          model: 'qwen3.8-flash-next:125b-mlx',
+          provider: 'ollama',
+          grounding: {
+            queries: knowledgeResponse.queries,
+            sources: [
+              { title: 'Ollama Documentation & MLX Models', url: 'https://ollama.com' },
+              ...knowledgeResponse.sources
+            ]
+          }
+        });
+      }
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
